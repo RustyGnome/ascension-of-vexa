@@ -1,3 +1,5 @@
+from vexa.personality import introduce
+
 # Portfolio 1: The Ascension of Vexa
 # Version 0.2 - Interactive Command Interface
 
@@ -11,6 +13,7 @@ def greet():
 
 def main():
     greet()
+    introduce()
 
     while True:
         command = input("Captain > ").strip().lower()
