@@ -2,6 +2,7 @@
 # Command Processing Module
 # Version 0.4
 
+from vexa.constitution import display_constitution
 def process_command(command):
 
     if command == "hello":
@@ -14,7 +15,10 @@ def process_command(command):
         print("Vexa > Our mission is to build an open-source AI assistant.")
 
     elif command == "help":
-        print("Vexa > Available commands: hello, status, mission, help, exit")
+        print("Vexa > Commands: hello, status, mission, constitution, help, exit")
+
+    elif command == "constitution":
+        display_constitution()
 
     elif command == "exit":
         print("Vexa > Until next time, Captain!")

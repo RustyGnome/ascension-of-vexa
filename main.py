@@ -1,41 +1,26 @@
-from vexa.personality import introduce
-
 # Portfolio 1: The Ascension of Vexa
-# Version 0.2 - Interactive Command Interface
+# Version 0.5 - Modular Architecture
+
+from vexa.personality import introduce
+from vexa.commands import process_command
+
 
 def greet():
     print("\n================================")
     print("       ASCENSION OF VEXA")
     print("================================")
-    print("Vexa Ironvolt Gearbeard reporting!")
-    print("Systems online, Captain.\n")
+    print("Vexa Core Systems Online!\n")
 
 
 def main():
     greet()
     introduce()
 
-    while True:
+    running = True
+
+    while running:
         command = input("Captain > ").strip().lower()
-
-        if command == "hello":
-            print("Vexa > Greetings, Captain!")
-
-        elif command == "status":
-            print("Vexa > All systems operational!")
-
-        elif command == "mission":
-            print("Vexa > Our mission is to build an open-source AI assistant.")
-
-        elif command == "help":
-            print("Vexa > Available commands: hello, status, mission, help, exit")
-
-        elif command == "exit":
-            print("Vexa > Until next time, Captain!")
-            break
-
-        else:
-            print("Vexa > Unknown command. Type 'help' for assistance.")
+        running = process_command(command)
 
 
 if __name__ == "__main__":

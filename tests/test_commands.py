@@ -31,6 +31,9 @@ class TestVexaCommands(unittest.TestCase):
         result = process_command("unknown")
         self.assertTrue(result)
 
+    def test_constitution(self):
+        result = process_command("constitution")
+        self.assertTrue(result)
 
 if __name__ == "__main__":
     unittest.main()
