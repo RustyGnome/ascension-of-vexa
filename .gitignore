@@ -11,4 +11,4 @@ venv/
 .env.*
 
 # VS Code local settings
-.vscode/
+.vscode/data/memory.json
