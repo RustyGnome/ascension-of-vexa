@@ -1,10 +1,10 @@
 
 import unittest
-from vexa.memory import remember, recall
+from vexa.memory import remember, recall, load_memory
 import tempfile
 from pathlib import Path
 from unittest.mock import patch
-
+import json
 
 class TestVexaMemory(unittest.TestCase):
 
@@ -44,3 +44,34 @@ class TestVexaMemory(unittest.TestCase):
         self.addCleanup(self.patcher.stop)
         self.addCleanup(self.temp_dir.cleanup)
   
+    def test_create_missing_memory_file(self):
+        self.memory_path.unlink()
+
+        result = load_memory()
+
+        self.assertEqual(result, {})
+        self.assertTrue(self.memory_path.exists())
+
+    def test_corrupted_memory_file(self):
+        self.memory_path.write_text(
+            "{invalid json",
+            encoding="utf-8"
+        )
+
+        with self.assertRaises(json.JSONDecodeError):
+            load_memory()
+
+
+    def test_failed_save_preserves_memory(self):
+        remember("ship", "The Rusty Gnome")
+
+        with patch(
+            "vexa.memory.os.replace",
+            side_effect=OSError("Simulated disk failure")
+        ):
+            with self.assertRaises(OSError):
+                remember("ship", "Enemy Vessel")
+
+        result = recall("ship")
+
+        self.assertEqual(result, "The Rusty Gnome")
