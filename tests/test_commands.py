@@ -3,7 +3,8 @@
 
 import unittest
 from vexa.commands import process_command
-
+import io
+from contextlib import redirect_stdout
 
 class TestVexaCommands(unittest.TestCase):
 
@@ -20,8 +21,13 @@ class TestVexaCommands(unittest.TestCase):
         self.assertTrue(result)
 
     def test_help(self):
-        result = process_command("help")
+        output = io.StringIO()
+
+        with redirect_stdout(output):
+         result = process_command("help")
+
         self.assertTrue(result)
+        self.assertIn("constitution", output.getvalue())
 
     def test_exit(self):
         result = process_command("exit")
@@ -34,6 +40,14 @@ class TestVexaCommands(unittest.TestCase):
     def test_constitution(self):
         result = process_command("constitution")
         self.assertTrue(result)
+    def test_recall(self):
+        output = io.StringIO()
+
+        with redirect_stdout(output):
+            result = process_command("recall ship")
+
+        self.assertTrue(result)
+        self.assertIn("The Rusty Gnome", output.getvalue())
 
 if __name__ == "__main__":
     unittest.main()
