@@ -4,6 +4,7 @@
 
 from vexa.constitution import display_constitution
 from vexa.memory import remember, recall
+from vexa.brain import ask_vexa
 def process_command(command):
 
     if command == "hello":
@@ -25,6 +26,7 @@ def process_command(command):
         print("  recall        -Retrieve information (recall key)")
         print("  help          -Display available commands")
         print("  exit          -Shut down Vexa")
+        print("  chat          -Talk to Vexa's local AI brain")
 
     elif command == "constitution":
         display_constitution()
@@ -56,6 +58,18 @@ def process_command(command):
         else:
             print("Vexa > Please provide a memory key.")
 
+
+    elif command.startswith("chat "):
+        prompt = command[len("chat "):].strip()
+
+        if prompt:
+            try:
+                response = ask_vexa(prompt)
+                print(f"Vexa > {response}")
+            except Exception as error:
+                print(f"Vexa > Neural connection error: {error}")
+        else:
+            print("Vexa > Please enter a message.")
 
     elif command == "exit":
         print("Vexa > Until next time, Captain!")

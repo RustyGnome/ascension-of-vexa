@@ -9,8 +9,24 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
+
 class TestVexaCommands(unittest.TestCase):
 
+
+    @patch("vexa.commands.ask_vexa")
+    def test_chat_command(self, mock_ask_vexa):
+        mock_ask_vexa.return_value = "Aye, Captain!"
+
+        output = io.StringIO()
+
+        with redirect_stdout(output):
+            result = process_command("chat Hello Vexa")
+
+        self.assertTrue(result)
+        mock_ask_vexa.assert_called_once_with("Hello Vexa")
+        self.assertIn("Vexa > Aye, Captain!", output.getvalue())
+
+    
     def test_hello(self):
         result = process_command("hello")
         self.assertTrue(result)
